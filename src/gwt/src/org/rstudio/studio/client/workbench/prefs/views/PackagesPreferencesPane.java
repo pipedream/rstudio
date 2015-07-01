@@ -90,8 +90,15 @@ public class PackagesPreferencesPane extends PreferencesPane
          }
       });
       if (!session.getSessionInfo().getDisablePackages())
+      {
+         lessSpaced(chkEnablePackages);
          add(chkEnablePackages);
-
+      }
+     
+      useSecurePackageDownload_ = new CheckBox(
+            "Use secure download method for HTTP");
+        lessSpaced(useSecurePackageDownload_);
+        add(useSecurePackageDownload_);
       
       useInternet2_ = new CheckBox(
                         "Use Internet Explorer library/proxy for HTTP",
@@ -104,8 +111,8 @@ public class PackagesPreferencesPane extends PreferencesPane
       }
       else
       {
-         spaced(chkEnablePackages);
-         chkEnablePackages.getElement().getStyle().setMarginBottom(12, Unit.PX);
+         spaced(useSecurePackageDownload_);
+         useSecurePackageDownload_.getElement().getStyle().setMarginBottom(12, Unit.PX);
       }
       
       add(headerLabel("Package development"));
@@ -142,6 +149,7 @@ public class PackagesPreferencesPane extends PreferencesPane
       viewDirAfterCheckFailure_.setEnabled(false); 
       hideObjectFiles_.setEnabled(false);
       useDevtools_.setEnabled(false);
+      useSecurePackageDownload_.setEnabled(false);
    }
 
 
@@ -201,6 +209,9 @@ public class PackagesPreferencesPane extends PreferencesPane
       
       useDevtools_.setEnabled(true);
       useDevtools_.setValue(packagesPrefs.getUseDevtools());
+      
+      useSecurePackageDownload_.setEnabled(true);
+      useSecurePackageDownload_.setValue(packagesPrefs.getUseSecureDownload());
    }
 
    @Override
@@ -216,7 +227,8 @@ public class PackagesPreferencesPane extends PreferencesPane
                                               cleanupAfterCheckSuccess_.getValue(),
                                               viewDirAfterCheckFailure_.getValue(),
                                               hideObjectFiles_.getValue(),
-                                              useDevtools_.getValue());
+                                              useDevtools_.getValue(),
+                                              useSecurePackageDownload_.getValue());
       rPrefs.setPackagesPrefs(packagesPrefs);
       
       return reload || reloadRequired_;
@@ -233,5 +245,6 @@ public class PackagesPreferencesPane extends PreferencesPane
    private CheckBox viewDirAfterCheckFailure_;
    private CheckBox hideObjectFiles_;
    private CheckBox useDevtools_;
+   private CheckBox useSecurePackageDownload_;
    private boolean reloadRequired_ = false;
 }

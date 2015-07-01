@@ -237,7 +237,7 @@ Error setPrefs(const json::JsonRpcRequest& request, json::JsonRpcResponse*)
 
    // read and set packages prefs
    bool useInternet2, cleanupAfterCheckSuccess, viewDirAfterCheckFailure;
-   bool hideObjectFiles, useDevtools;
+   bool hideObjectFiles, useDevtools, useSecureDownload;
    json::Object cranMirrorJson;
    error = json::readObject(packagesPrefs,
                             "cran_mirror", &cranMirrorJson,
@@ -248,7 +248,8 @@ Error setPrefs(const json::JsonRpcRequest& request, json::JsonRpcResponse*)
                             "cleanup_after_check_success", &cleanupAfterCheckSuccess,
                             "viewdir_after_check_failure", &viewDirAfterCheckFailure,
                             "hide_object_files", &hideObjectFiles,
-                            "use_devtools", &useDevtools);
+                            "use_devtools", &useDevtools,
+                            "use_secure_download", &useSecureDownload);
 
    if (error)
        return error;
@@ -259,6 +260,7 @@ Error setPrefs(const json::JsonRpcRequest& request, json::JsonRpcResponse*)
    userSettings().setCleanupAfterRCmdCheck(cleanupAfterCheckSuccess);
    userSettings().setHideObjectFiles(hideObjectFiles);
    userSettings().setViewDirAfterRCmdCheck(viewDirAfterCheckFailure);
+   userSettings().setSecurePackageDownload(useSecureDownload);
 
    // NOTE: currently there is no UI for bioconductor mirror so we
    // don't want to set it (would have side effect of overwriting
@@ -405,6 +407,7 @@ Error getRPrefs(const json::JsonRpcRequest& request,
    packagesPrefs["cleanup_after_check_success"] = userSettings().cleanupAfterRCmdCheck();
    packagesPrefs["viewdir_after_check_failure"] = userSettings().viewDirAfterRCmdCheck();
    packagesPrefs["hide_object_files"] = userSettings().hideObjectFiles();
+   packagesPrefs["use_secure_download"] = userSettings().securePackageDownload();
 
    // get projects prefs
    json::Object projectsPrefs;

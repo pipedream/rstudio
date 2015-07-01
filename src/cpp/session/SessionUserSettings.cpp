@@ -504,6 +504,17 @@ void UserSettings::setBioconductorMirror(
    setBioconductorReposOption(bioconductorMirror.url);
 }
 
+bool UserSettings::securePackageDownload() const
+{
+   return settings_.getBool("securePackageDownload", true);
+}
+
+void UserSettings::setSecurePackageDownload(bool secureDownload)
+{
+   settings_.set("securePackageDownload", secureDownload);
+}
+
+
 bool UserSettings::vcsEnabled() const
 {
    return settings_.getBool("vcsEnabled", true);
