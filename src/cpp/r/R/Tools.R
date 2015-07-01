@@ -655,13 +655,14 @@ assign(envir = .rs.Env, ".rs.getVar", function(name)
    # that doesn't rely on the value of setInternet2). If it's R <= 3.1
    # then we can use "internal" for https so long as internet2 is enabled 
    # (we don't use libcurl on Windows because it doesn't check certs).
-   if (identical(sysName, "Windows"))
+   if (identical(sysName, "Windows")) {
       if (isR32)
          "wininet"
       else if (setInternet2(NA))
          "internal"
       else
          ""
+   }
    
    # For Darwin and Linux we use libcurl if we can and then fall back
    # to curl or wget as appropriate. We prefer libcurl because it honors
@@ -676,6 +677,7 @@ assign(envir = .rs.Env, ".rs.getVar", function(name)
       method <- posixMethod("wget")
       if (!nzchar(method))
          method <- posixMethod("curl")
+      method
    } 
    
    # Another OS, don't even attempt detection since RStudio currently
