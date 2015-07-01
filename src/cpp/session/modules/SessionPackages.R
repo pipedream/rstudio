@@ -351,7 +351,7 @@ if (identical(as.character(Sys.info()["sysname"]), "Darwin") &&
    # RStudio mirror
    rstudioDF <- data.frame(name = "Global (CDN)",
                            host = "RStudio",
-                           url = "http://cran.rstudio.com",
+                           url = "https://cran.rstudio.com",
                            country = "us",
                            stringsAsFactors = FALSE)
 

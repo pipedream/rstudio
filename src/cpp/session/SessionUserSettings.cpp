@@ -447,7 +447,11 @@ CRANMirror UserSettings::cranMirror() const
 
    // re-map cran.rstudio.org to cran.rstudio.com
    if (mirror.url == "http://cran.rstudio.org")
-      mirror.url = "http://cran.rstudio.com";
+      mirror.url = "https://cran.rstudio.com";
+
+   // re-map http to https
+   if (mirror.url == "http://cran.rstudio.com")
+      mirror.url = "https://cran.rstudio.com";
 
    mirror.country = settings_.get(kCRANMirrorCountry);
 
@@ -456,7 +460,7 @@ CRANMirror UserSettings::cranMirror() const
    {
       mirror.name = "Global (CDN)";
       mirror.host = "RStudio";
-      mirror.url = "http://cran.rstudio.com";
+      mirror.url = "https://cran.rstudio.com";
       mirror.country = "us";
    }
 

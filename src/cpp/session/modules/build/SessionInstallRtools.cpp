@@ -81,7 +81,7 @@ Error installRtools()
 
          std::string repos = userSettings().cranMirror().url;
          if (repos.empty())
-            repos = "http://cran.rstudio.com/";
+            repos = "https://cran.rstudio.com/";
          url = rTools.url(repos);
          break;
       }
