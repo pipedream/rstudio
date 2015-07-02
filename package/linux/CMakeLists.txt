@@ -55,6 +55,11 @@ if(RSTUDIO_SERVER)
   if(IS_RHEL_5 AND NOT RSTUDIO_PACKAGE_BUILD_SLES)
      set(RSTUDIO_RPM_DEPENDS "${RSTUDIO_RPM_DEPENDS}libffi, ")
   endif()
+  
+  # on RHEL > 5 we depend on ca-certificates (didn't exist prior to that)
+  if(NOT IS_RHEL_5)
+     set(RSTUDIO_RPM_DEPENDS "${RSTUDIO_RPM_DEPENDS}ca-certificates, ")
+  endif()
 
   # don't auto-resolve other dependencies
   set(CPACK_RPM_PACKAGE_AUTOREQPROV " no")
@@ -69,8 +74,11 @@ elseif(RSTUDIO_DESKTOP)
   set(RPM_POSTINST postinst-desktop.sh.in)
   set(RPM_POSTRM postrm-desktop.sh.in)
 
-  # depend on libjpeg62 (for Qt 4.8 jpeg plugin)
+  # Debian/Ubuntu desktop dependencies
   set(RSTUDIO_DEBIAN_DEPENDS "libjpeg62, libedit2, ca-certificates, ")
+  
+  # RPM desktop dependencies
+  set(RSTUDIO_RPM_DEPENDS "ca-certificates, ")
 
 endif()
 
