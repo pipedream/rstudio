@@ -533,6 +533,8 @@ std::string previousRpubsUploadId(const core::FilePath& filePath);
 
 std::string CRANReposURL();
 
+std::string downloadFileMethod();
+
 struct UserPrompt
 {
    enum Type { Info = 0, Warning = 1, Error = 2, Question = 3 };

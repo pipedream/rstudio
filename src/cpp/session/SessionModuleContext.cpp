@@ -1719,6 +1719,16 @@ std::string CRANReposURL()
    return url;
 }
 
+std::string downloadFileMethod()
+{
+   std::string method;
+   Error error = r::exec::evaluateString(
+                           "getOption('download.file.method', '')", &method);
+   if (error)
+      LOG_ERROR(error);
+   return method;
+}
+
 shell_utils::ShellCommand RCommand::buildRCmd(const core::FilePath& rBinDir)
 {
 #if defined(_WIN32)
