@@ -35,6 +35,7 @@
 #include <r/RJson.hpp>
 #include <r/RInterface.hpp>
 
+#include <session/SessionUserSettings.hpp>
 #include <session/SessionModuleContext.hpp>
 #include <session/projects/SessionProjects.hpp>
 
@@ -355,6 +356,18 @@ Error getPackageState(const json::JsonRpcRequest& request,
    return error;
 }
 
+Error initSecurePackageDownload()
+{
+   if (userSettings().securePackageDownload())
+   {
+      Error error = r::exec::RFunction(".rs.initSecureDownload").call();
+      if (error)
+         LOG_ERROR(error);
+   }
+
+   return Success();
+}
+
 } // anonymous namespace
 
 void enquePackageStateChanged()
@@ -404,7 +417,6 @@ Error initialize()
             (DL_FUNC) rs_downloadAvailablePackages,
             1);
    
-
    using boost::bind;
    using namespace module_context;
    ExecBlock initBlock ;
@@ -415,6 +427,7 @@ Error initialize()
             availablePackagesEnd))
       (bind(sourceModuleRFile, "SessionPackages.R"))
       (bind(registerRpcMethod, "get_package_state", getPackageState))
+      (bind(initSecurePackageDownload))
       (bind(r::exec::executeString, ".rs.packages.initialize()"));
    return initBlock.execute();
 }
