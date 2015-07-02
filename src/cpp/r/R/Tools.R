@@ -687,18 +687,23 @@ assign(envir = .rs.Env, ".rs.getVar", function(name)
    }
 })
 
+.rs.addFunction("autoDownloadMethod", function() {
+   if (capabilities("http/ftp"))
+      "internal"
+   else if (nzchar(Sys.which("wget")))
+      "wget"
+   else if (nzchar(Sys.which("curl")))
+      "curl"
+   else
+      ""
+})
+
 .rs.addFunction("isDownloadMethodSecure", function(method) {
    
    # resolve auto if needed
-   if (identical(method, "auto")) {
-      if (capabilities("http/ftp"))
-         method <- "internal"
-      else if (nzchar(Sys.which("wget")))
-         method <- "wget"
-      else if (nzchar(Sys.which("curl")))
-         method <- "curl"
-   }
-   
+   if (identical(method, "auto"))
+      method <- .rs.autoDownloadMethod()
+ 
    # check for methods known to work securely
    if (method %in% c("wininet", "libcurl", "wget", "curl")) {
       TRUE
